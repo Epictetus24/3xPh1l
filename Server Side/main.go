@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"net/http"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -44,31 +45,32 @@ func decrypt(encryptedString string, keyString string) (decryptedString string) 
 	return fmt.Sprintf("%s", plaintext)
 }
 
-var encoded = make(map[string]string)
+var encoded = make(map[int]string)
 
 func collect(w http.ResponseWriter, req *http.Request) {
 
 	req.ParseForm()
 	data := req.FormValue("data")
 	parcel := req.FormValue("parcel")
-	encoded[parcel] = data
+	integer, _ := strconv.Atoi(parcel)
+	encoded[integer] = data
 	fmt.Printf("Recieved Parcel %s : %s\n", parcel, data)
 
 }
 
 func done(w http.ResponseWriter, req *http.Request) {
 	var encjoin []string
-	keys := make([]string, 0, len(encoded))
+	keys := make([]int, 0, len(encoded))
 	for k := range encoded {
 		keys = append(keys, k)
 	}
-	sort.Strings(keys)
+	sort.Ints(keys)
 	for _, k := range keys {
+		fmt.Printf("Adding Encoded Chunk %d:\n%s\n", k, encoded[k])
 		encjoin = append(encjoin, encoded[k])
 	}
 
 	fmt.Println("Base64 Encoded Output:")
-	fmt.Println(encjoin)
 	fmt.Println(strings.Join(encjoin, ""))
 	fmt.Println(len(encjoin))
 	uDec, _ := base64.RawURLEncoding.DecodeString(strings.Join(encjoin, ""))
