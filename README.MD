@@ -7,7 +7,7 @@ The long term goal is to support DNS as well as HTTPS, but this works for now.
 ### Known Bugs ###
 The tool struggles with files bigger than say, an ssh key file. Therefore it's kind of useless for any sizeable exfiltration. However, I am working on fixing this.
 
-Currently usage:
+Currentl usage:
 
 ```sh
 go run exfilserver.go
